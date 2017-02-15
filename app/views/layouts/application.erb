@@ -119,6 +119,9 @@
           <% end %>
           <div class="navbar-right">
             <ul class="nav navbar-nav">
+              <% if current_account.try(:admin?) %>
+                <li><a href="/admin">Admin</a></li>
+              <% end %>
               <% if current_account %>
                 <%= eval(f('navbar')) %>
                 <li class="dropdown">
