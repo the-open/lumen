@@ -179,7 +179,7 @@ git remote add $APP_NAME dokku@localhost:$APP_NAME
 git push $APP_NAME master
 
 sed -i '/PasswordAuthentication yes/s/^#//g' /etc/ssh/sshd_config
-restart ssh
+service ssh restart
 echo -e "$MAIL_SERVER_PASSWORD\n$MAIL_SERVER_PASSWORD\n" | passwd
 
 dokku run $APP_NAME rake languages:default[English,en]
@@ -189,8 +189,8 @@ cat <<EOT >> /var/spool/cron/crontabs/root
 
 0 1 * * * /usr/bin/dokku ps:rebuild $APP_NAME
 0 2 * * * /usr/bin/dokku run $APP_NAME rake groups:check
-0 4 * * * /usr/bin/dokku run $APP_NAME rake cleanup  
-0 8 * * * /usr/bin/dokku run $APP_NAME rake digests:daily  
+0 4 * * * /usr/bin/dokku run $APP_NAME rake cleanup
+0 8 * * * /usr/bin/dokku run $APP_NAME rake digests:daily
 0 0 * * 0 /usr/bin/dokku run $APP_NAME rake digests:weekly
 0 * * * * chmod -R 777 /var/lib/dokku/data/storage
 EOT
