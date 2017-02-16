@@ -3,7 +3,7 @@ Lumen::App.controllers do
   before do
     @environment_variables = {
       :APP_NAME => 'App name (lowercase, no spaces)',
-      :GROUP_USERNAME_SUFFIX => 'Custom username suffix for groups (defaults to APP_NAME)',      
+      :GROUP_USERNAME_SUFFIX => 'Custom username suffix for groups (defaults to APP_NAME)',
       
       :DOMAIN => 'Domain of Lumen web app',
       :MAIL_DOMAIN => 'Domain from which mails will be sent and received',
@@ -12,7 +12,8 @@ Lumen::App.controllers do
       :MAIL_SERVER_USERNAME => 'Mail server username',
       :MAIL_SERVER_PASSWORD => 'Mail server password',
       
-      :HELP_ADDRESS => 'Email address for general queries',      
+      :HELP_ADDRESS => 'Email address for general queries',
+      :ACCOUNT_REQUESTS_EMAILS => 'Comma seperated emails for account requests notification',
             
       :AIRBRAKE_HOST => 'Airbrake host (no http://)',
       :AIRBRAKE_API_KEY => 'Airbrake API key',  
@@ -121,6 +122,9 @@ Lumen::App.controllers do
       :'tip-website' => 'Tip for the website field on account edit page',
       :'tip-time-zone' => 'Tip for the time zone field on account edit page',
       :'tip-language' => 'Tip for the language field on account edit page',
+      :'apply' => 'Text displayed on apply page',
+      :'applied' => 'Thank you text displayed on the applied page',
+      :'verified' => 'Thank you text displayed on email verification page'
     }     
   end
   

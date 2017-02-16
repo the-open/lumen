@@ -5,7 +5,8 @@ class Affiliation
   field :title, :type => String
     
   belongs_to :account, index: true
-  belongs_to :organisation, index: true  
+  belongs_to :organisation, index: true
+  belongs_to :account_request, index: true
     
   attr_accessor :organisation_name
   before_validation :find_or_create_organisation
@@ -18,7 +19,7 @@ class Affiliation
     end
   end
        
-  validates_presence_of :title, :organisation, :account
+  validates_presence_of :title, :organisation
       
   def self.admin_fields
     {
@@ -26,6 +27,10 @@ class Affiliation
       :organisation_id => :lookup,
       :account_id => :lookup
     }
+  end
+
+  def summary
+    "#{title} at #{organisation.name}"
   end
   
 end

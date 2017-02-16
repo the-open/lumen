@@ -239,3 +239,11 @@ ul.admin-options li a:hover, ul.admin-options li.active a { opacity: 1 }
   vertical-align: middle;
   float: none;
 }
+
+.account-requests .row:not(.header) {
+  padding-top: 10px;
+}
+
+.account-requests p {
+  font-size: 16px;
+}

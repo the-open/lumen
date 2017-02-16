@@ -70,7 +70,9 @@
           d.appendTo('#affiliations');
           i.focus();
         });
+        <% unless no_add_button %>
         icon.insertAfter('#affiliations');
+        <% end %>
         var organisations = <%=Organisation.all.map(&:name).to_json %>;
         $('.affiliation .typeahead').typeahead({source: organisations});
         if ($('.affiliation').length == 0)

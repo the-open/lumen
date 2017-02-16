@@ -1,0 +1,8 @@
+<%= eval f('apply') %>
+
+<% form_for :account, '', :class => 'form-horizontal' do |f| %>
+  <%= f.text_block :name %>
+  <%= f.text_block :email %>
+  <%= partial :'accounts/affiliations', :locals => {:f => f, no_add_button: true} %>
+  <%= f.submit_block button_text: 'Apply' %>
+<% end %>

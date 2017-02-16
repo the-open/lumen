@@ -36,7 +36,7 @@
         <%= f.text_area_block :headline, tip: eval(f('tip-headline')), hint: %Q{<span id="counter"></span>} %>        
       <% end %>
       <% if !Config['HIDE_ACCOUNT_AFFILIATIONS'] %>
-        <%= partial :'accounts/affiliations', :locals => {:f => f} %>  
+        <%= partial :'accounts/affiliations', :locals => {:f => f, :no_add_button => false} %>  
       <% end %>
       <%= f.email_block :email, tip: eval(f('tip-email')), disabled: Config['PREVENT_EMAIL_CHANGES'] %>
 

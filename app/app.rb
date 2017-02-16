@@ -114,5 +114,24 @@ module Lumen
       end    
     end    
                   
+    get '/apply' do
+      erb :apply
+    end
+
+    post '/apply' do
+      request_params = params['account']
+      affiliation_params = request_params['affiliations_attributes']['0']
+
+      account_request = AccountRequest.create!(name: request_params['name'], email: request_params['email'])
+      account_request.affiliation = Affiliation.create!(title: affiliation_params['title'], organisation_name: affiliation_params['organisation_name'])
+      account_request.save!
+
+      redirect '/applied'
+    end
+
+    get '/applied' do
+      erb :applied
+    end
+
   end
 end

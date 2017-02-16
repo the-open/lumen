@@ -9,9 +9,17 @@ Lumen::App.controllers do
 You were added to the groups [group_list] on #{Config['SITE_NAME_DEFINITE']}.
 <br /><br />
 [sign_in_details]}
+
+    if params[:account_request_id]
+      account_request = AccountRequest.find(params[:account_request_id])
+      @account.name = account_request.name
+      @account.email = account_request.email
+      @account.affiliations = [Affiliation.new(title: account_request.affiliation.title, organisation: account_request.affiliation.organisation)]
+      @account.account_request = account_request
+    end
     erb :'accounts/build_admin'      
-  end  
-    
+  end
+
   post '/accounts/new' do
     site_admins_only!
     @account = Account.new(params[:account])
@@ -19,12 +27,38 @@ You were added to the groups [group_list] on #{Config['SITE_NAME_DEFINITE']}.
     @account.password = password
     @account.password_confirmation = password
     if @account.save
-      flash[:notice] = 'The account was created successfully'              
-      redirect back
+      flash[:notice] = 'The account was created successfully'
+
+      account_request = AccountRequest.find_by(email: @account.email)
+      if account_request
+        account_request.update_attributes(approved: true)
+        redirect '/accounts/requests' and return
+      end
+
+      redirect '/accounts/new'
     else
       flash.now[:error] = 'Some errors prevented the account from being saved'
       erb :'accounts/build_admin'      
     end
+  end
+
+  get '/accounts/requests' do
+    site_admins_only!
+    @account_requests = AccountRequest.where(email_verified: true, approved: false)
+    erb :'accounts/requests'
+  end
+
+  get '/accounts/requests/verify/:id' do
+    @account_request = AccountRequest.find(params[:id])
+    @account_request.email_verified = true
+    @account_request.notify_new_request
+    @account_request.save!
+    erb :'verified'
+  end
+
+  get '/accounts/request/approve/:id' do
+    site_admins_only!
+    redirect "/accounts/new?account_request_id=#{params[:id]}"
   end
     
   get '/accounts/:id/edit' do

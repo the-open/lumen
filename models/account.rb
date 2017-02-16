@@ -66,6 +66,8 @@ class Account
   has_many :suggestions, :dependent => :destroy
   has_many :proposals, :dependent => :destroy
   has_many :positions, :dependent => :destroy
+
+  has_one :account_request
   
   belongs_to :language, index: true
   
