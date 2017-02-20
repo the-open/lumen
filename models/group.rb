@@ -175,8 +175,12 @@ You have been granted membership of the group #{self.name} (#{self.email}) on #{
   
   after_create do
     if Config['SLACK_WEBHOOK_URL']
-      agent = Mechanize.new
-      agent.post Config['SLACK_WEBHOOK_URL'], %Q{{"text":"A group was created: <http://#{Config['DOMAIN']}/groups/#{slug}|#{name}>", "channel": "#{Config['SLACK_CHANNEL']}", "username": "Lumen", "icon_emoji": ":bulb:"}}, {'Content-Type' => 'application/json'}
+      begin
+        agent = Mechanize.new
+        agent.post Config['SLACK_WEBHOOK_URL'], %Q{{"text":"A group was created: <http://#{Config['DOMAIN']}/groups/#{slug}|#{name}>", "channel": "#{Config['SLACK_CHANNEL']}", "username": "Lumen", "icon_emoji": ":bulb:"}}, {'Content-Type' => 'application/json'}
+      rescue => e
+        Bugsnag.notify(e)
+      end
     end    
   end
        

@@ -334,9 +334,13 @@ class Account
   
   after_create do
     if Config['SLACK_WEBHOOK_URL']
-      agent = Mechanize.new
-      agent.post Config['SLACK_WEBHOOK_URL'], %Q{{"text":"An account was created: <http://#{Config['DOMAIN']}/accounts/#{self.id}|#{self.name}>", "channel": "#{Config['SLACK_CHANNEL']}", "username": "Lumen", "icon_emoji": ":bulb:"}}, {'Content-Type' => 'application/json'}
-    end    
+      begin
+        agent = Mechanize.new
+        agent.post Config['SLACK_WEBHOOK_URL'], %Q{{"text":"An account was created: <http://#{Config['DOMAIN']}/accounts/#{self.id}|#{self.name}>", "channel": "#{Config['SLACK_CHANNEL']}", "username": "Lumen", "icon_emoji": ":bulb:"}}, {'Content-Type' => 'application/json'}
+      rescue => e
+        Bugsnag.notify(e)
+      end
+    end
   end  
   
   def self.new_tips
