@@ -186,6 +186,7 @@ class ConversationPost
             conversation_post.conversation_post_bccs.create(accounts: [account])
           rescue => e
             Airbrake.notify(e)
+            Bugsnag.notify(e)
           end
         }      
       end
@@ -201,6 +202,7 @@ class ConversationPost
         rescue => e
           puts r
           Airbrake.notify(e)
+          Bugsnag.notify(e)
         end      
       end
       if conversation_post.conversation_post_bccs.where(message_id: nil).count > 0
@@ -209,6 +211,7 @@ class ConversationPost
         rescue => e
           puts r
           Airbrake.notify(e)
+          Bugsnag.notify(e)
         end        
       end
     }    

@@ -92,6 +92,7 @@ class ConversationPostBcc
         mail.references = references.join(' ')
       rescue => e
         Airbrake.notify(e)
+        Bugsnag.notify(e)
       end
     end
     mail.html_part do

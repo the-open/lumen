@@ -433,6 +433,7 @@ You have been granted membership of the group #{self.name} (#{self.email}) on #{
         mail.deliver
       rescue => e
         Airbrake.notify(e) unless e.message.include?('User unknown in virtual alias table')
+        Bugsnag.notify(e) unless e.message.include?('User unknown in virtual alias table')
       end
         
       puts "this message was sent by a stranger"
@@ -461,6 +462,7 @@ You have been granted membership of the group #{self.name} (#{self.email}) on #{
       html = Premailer.new(html, :with_html_string => true, :adapter => 'nokogiri', :input_encoding => 'UTF-8').to_inline_css
     rescue => e
       Airbrake.notify(e)
+      Bugsnag.notify(e)
     end
 
     if (
@@ -536,6 +538,7 @@ You have been granted membership of the group #{self.name} (#{self.email}) on #{
       rescue => e
         puts r
         Airbrake.notify(e)
+        Bugsnag.notify(e)
       end
     end
     puts "checking for bccs"
@@ -547,6 +550,7 @@ You have been granted membership of the group #{self.name} (#{self.email}) on #{
       rescue => e
         puts r
         Airbrake.notify(e)
+        Bugsnag.notify(e)
       end
     end    
   end

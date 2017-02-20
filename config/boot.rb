@@ -14,10 +14,6 @@ Mongoid.raise_not_found_error = false
 Mongoid.logger.level = Logger::INFO
 Mongo::Logger.logger.level = Logger::INFO
 
-Bugsnag.configure do |config|
-  config.api_key = Config['BUGSNAG_API_KEY']
-end
-
 Padrino.load!
 
 Delayed::Worker.max_attempts = 1
