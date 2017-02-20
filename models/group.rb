@@ -176,8 +176,9 @@ You have been granted membership of the group #{self.name} (#{self.email}) on #{
   after_create do
     if Config['SLACK_WEBHOOK_URL']
       begin
-        agent = Mechanize.new
-        agent.post Config['SLACK_WEBHOOK_URL'], %Q{{"text":"A group was created: <http://#{Config['DOMAIN']}/groups/#{slug}|#{name}>", "channel": "#{Config['SLACK_CHANNEL']}", "username": "Lumen", "icon_emoji": ":bulb:"}}, {'Content-Type' => 'application/json'}
+        notifier = Slack::Notifier.new Config['SLACK_WEBHOOK_URL'], channel: Config['SLACK_CHANNEL'], username: "Lumen", icon_emoji: ":bulb:"
+        message = "A group was created: [#{name}](http://#{Config['DOMAIN']}/groups/#{slug})"
+        notifier.ping Slack::Notifier::Util::Escape.html(message)
       rescue => e
         Bugsnag.notify(e)
       end

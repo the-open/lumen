@@ -96,8 +96,9 @@ class Conversation
     if Config['SLACK_WEBHOOK_URL']
       begin
         unless self.group.slack_ignore
-          agent = Mechanize.new
-          agent.post Config['SLACK_WEBHOOK_URL'], %Q{{"text":"New conversation in #{self.group.name}: <http://#{Config['DOMAIN']}/conversations/#{slug}|#{subject}> #{"(<http://#{Config['DOMAIN']}/groups/#{self.group.slug}/conversations_requiring_approval|requires approval>)" if self.group.conversations_require_approval}", "channel": "#{Config['SLACK_CHANNEL']}", "username": "Lumen", "icon_emoji": ":bulb:"}}, {'Content-Type' => 'application/json'}
+          notifier = Slack::Notifier.new Config['SLACK_WEBHOOK_URL'], channel: Config['SLACK_CHANNEL'], username: "Lumen", icon_emoji: ":bulb:"
+          message = "New conversation in #{self.group.name}: [#{subject}](http://#{Config['DOMAIN']}/conversations/#{slug}) #{"[requires approval](http://#{Config['DOMAIN']}/groups/#{self.group.slug}/conversations_requiring_approval)" if self.group.conversations_require_approval}"
+          notifier.ping Slack::Notifier::Util::Escape.html(message)
         end
       rescue => e
         Bugsnag.notify(e)

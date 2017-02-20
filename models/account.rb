@@ -335,8 +335,9 @@ class Account
   after_create do
     if Config['SLACK_WEBHOOK_URL']
       begin
-        agent = Mechanize.new
-        agent.post Config['SLACK_WEBHOOK_URL'], %Q{{"text":"An account was created: <http://#{Config['DOMAIN']}/accounts/#{self.id}|#{self.name}>", "channel": "#{Config['SLACK_CHANNEL']}", "username": "Lumen", "icon_emoji": ":bulb:"}}, {'Content-Type' => 'application/json'}
+        notifier = Slack::Notifier.new Config['SLACK_WEBHOOK_URL'], channel: Config['SLACK_CHANNEL'], username: "Lumen", icon_emoji: ":bulb:"
+        message = "An account was created: [#{self.name}](http://#{Config['DOMAIN']}/accounts/#{self.id})"
+        notifier.ping Slack::Notifier::Util::Escape.html(message)
       rescue => e
         Bugsnag.notify(e)
       end
