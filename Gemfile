@@ -37,6 +37,7 @@ gem 'net-ssh'
 gem 'net-scp'
 
 gem 'bugsnag'
+gem 'slack-notifier'
 
 # Text processing
 gem 'rinku'
