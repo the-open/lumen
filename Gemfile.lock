@@ -44,6 +44,7 @@ GEM
       multi_json
     bcrypt (3.1.11)
     bson (4.1.1)
+    bugsnag (5.2.0)
     builder (3.2.2)
     capybara (2.8.1)
       addressable
@@ -249,6 +250,7 @@ DEPENDENCIES
   activate-tools!
   airbrake (= 4.3.5)
   bcrypt
+  bugsnag
   capybara
   countries
   delayed-plugins-airbrake
@@ -285,4 +287,4 @@ RUBY VERSION
    ruby 2.3.0p0
 
 BUNDLED WITH
-   1.13.7
+   1.14.4

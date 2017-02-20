@@ -16,7 +16,9 @@ Lumen::App.controllers do
       :ACCOUNT_REQUESTS_EMAILS => 'Comma seperated emails for account requests notification',
             
       :AIRBRAKE_HOST => 'Airbrake host (no http://)',
-      :AIRBRAKE_API_KEY => 'Airbrake API key',  
+      :AIRBRAKE_API_KEY => 'Airbrake API key',
+
+      :BUGSNAG_API_KEY => 'Bugsnag API key',
       
       :GOOGLE_MAPS_API_KEY => 'Google Maps API key',
       

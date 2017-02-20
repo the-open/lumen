@@ -36,6 +36,8 @@ gem 'geocoder'
 gem 'net-ssh'
 gem 'net-scp'
 
+gem 'bugsnag'
+
 # Text processing
 gem 'rinku'
 gem 'sanitize'

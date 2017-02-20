@@ -16,7 +16,8 @@ module Lumen
     helpers Activate::NavigationHelpers
     
     use Dragonfly::Middleware
-    use Airbrake::Rack    
+    use Airbrake::Rack
+    use Bugsnag::Rack
     use OmniAuth::Builder do
       provider :account
       Provider.registered.each { |provider|
@@ -28,7 +29,8 @@ module Lumen
     }    
     
     set :public_folder, Padrino.root('app', 'assets')
-    set :default_builder, 'ActivateFormBuilder'    
+    set :default_builder, 'ActivateFormBuilder'
+    enable :raise_errors
                       
     before do
       redirect "http://#{Config['DOMAIN']}#{request.path}" if Config['DOMAIN'] and request.env['HTTP_HOST'] != Config['DOMAIN']
@@ -44,6 +46,7 @@ module Lumen
      
     error do
       Airbrake.notify(env['sinatra.error'], :session => session)
+      Bugsnag.auto_notify($!)
       erb :error
     end 
                
