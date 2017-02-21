@@ -49,11 +49,58 @@ You were added to the groups [group_list] on #{Config['SITE_NAME_DEFINITE']}.
   end
 
   get '/accounts/requests/verify/:id' do
-    @account_request = AccountRequest.find(params[:id])
-    @account_request.email_verified = true
-    @account_request.notify_new_request
-    @account_request.save!
-    erb :'verified'
+    account_request = AccountRequest.find(params[:id])
+    account_request.email_verified = true
+    account_request.save!
+
+    account_created = false
+
+    if Config['ACCOUNT_AUTO_APPROVED_DOMAINS']
+      auto_approved_domains = Config['ACCOUNT_AUTO_APPROVED_DOMAINS'].split(",").map!(&:strip)
+      email_domain = account_request.email.split("@").last.strip
+
+      if auto_approved_domains.include?(email_domain)
+        account = Account.new
+        account.welcome_email_subject = "You were added to #{Config['SITE_NAME_DEFINITE']}"
+        account.welcome_email_body = %Q{Hi [firstname],
+<br /><br />
+You were added to the groups [group_list] on #{Config['SITE_NAME_DEFINITE']}.
+<br /><br />
+Depending on what organisation you’re with or your role, you might also be interested in: startups, tech, fundraising, member-led, or socialmedia. You can see the full list of groups here: https://#{Config['DOMAIN']}/groups
+<br /><br />
+[sign_in_details]}
+
+        account.name = account_request.name
+        account.email = account_request.email
+        account.affiliations = [Affiliation.new(title: account_request.affiliation.title, organisation: account_request.affiliation.organisation)]
+        account.account_request = account_request
+
+        password = Account.generate_password(8)
+        account.password = password
+        account.password_confirmation = password
+
+        if Config['AUTO_APPROVED_GROUPS']
+          group_slugs = Config['AUTO_APPROVED_GROUPS'].split(",").map!(&:strip)
+          group_ids = group_slugs.map { |slug| Group.find_by(slug: slug).try(:id) }
+          group_ids.compact
+          account.groups_to_join = group_ids
+        end
+        account_request.update_attributes(approved: true)
+        account_created = true
+
+        account.save!
+      else
+        account_request.notify_new_request
+      end
+    else
+      account_request.notify_new_request
+    end
+
+    if account_created
+      erb :auto_verified
+    else
+      erb :verified
+    end
   end
 
   get '/accounts/request/approve/:id' do

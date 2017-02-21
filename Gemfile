@@ -49,6 +49,10 @@ gem 'ri_cal', github: 'espen/ri_cal'
 gem 'countries'
 gem 'open_uri_redirections'
 
+group :development do
+  gem 'pry'
+end
+
 group :test do
   gem 'minitest-rg'
   gem 'factory_girl'

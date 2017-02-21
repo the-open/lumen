@@ -14,6 +14,8 @@ Lumen::App.controllers do
       
       :HELP_ADDRESS => 'Email address for general queries',
       :ACCOUNT_REQUESTS_EMAILS => 'Comma seperated emails for account requests notification',
+      :ACCOUNT_AUTO_APPROVED_DOMAINS => 'Comma seperated domains for auto approval',
+      :AUTO_APPROVED_GROUPS => 'Comma seperated groups for auto created accounts',
             
       :AIRBRAKE_HOST => 'Airbrake host (no http://)',
       :AIRBRAKE_API_KEY => 'Airbrake API key',
@@ -126,7 +128,8 @@ Lumen::App.controllers do
       :'tip-language' => 'Tip for the language field on account edit page',
       :'apply' => 'Text displayed on apply page',
       :'applied' => 'Thank you text displayed on the applied page',
-      :'verified' => 'Thank you text displayed on email verification page'
+      :'verified' => 'Thank you text displayed on email verification page',
+      :'auto-verified' => 'Thank you text displayed on auto approved account email verification page'
     }     
   end
   
