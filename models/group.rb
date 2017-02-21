@@ -23,6 +23,7 @@ class Group
   field :conversation_creation_by_admins_only, :type => Boolean
   field :join_on_first_sign_in, :type => Boolean
   field :slack_ignore, :type => Boolean
+  field :sort_number, :type => Integer, :default => 100
         
   dragonfly_accessor :picture do
     after_assign { |picture| self.picture = picture.thumb('500x500>') }
@@ -194,6 +195,7 @@ You have been granted membership of the group #{self.name} (#{self.email}) on #{
     {
       :name => :text,
       :slug => :text,
+      :sort_number => :number,
       :primary => :check_box,
       :allow_external_membership_requests => :check_box,
       :description => :text_area,

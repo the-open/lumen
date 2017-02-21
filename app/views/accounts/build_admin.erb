@@ -4,7 +4,7 @@
   <%= f.text_block :name %>
   <%= f.text_block :email %>
   <%= partial :'accounts/affiliations', :locals => {:f => f, :no_add_button => false} %>
-  <%= f.check_boxes_block :groups_to_join, options: Group.order(:slug.asc).where(:id.nin => @account.memberships.map(&:group_id)).map { |group| [group.name, group.id] } %>
+  <%= f.check_boxes_block :groups_to_join, options: Group.order(:sort_number.asc,:slug.asc).where(:id.nin => @account.memberships.map(&:group_id)).map { |group| [group.name, group.id] } %>
   <% if @account.sign_ins.count == 0 %>
     <%= f.check_box_block :confirm_memberships %>
   <% end %>
