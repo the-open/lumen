@@ -59,6 +59,7 @@ class Account
   has_many :events_as_creator, :class_name => 'Event', :inverse_of => :account, :dependent => :destroy
   has_many :venues_as_creator, :class_name => 'Venue', :inverse_of => :account, :dependent => :destroy
   has_many :docs_as_creator, :class_name => 'Doc', :inverse_of => :account, :dependent => :destroy
+  has_many :classifieds_as_creator, :class_name => 'Classified', :inverse_of => :account, :dependent => :destroy
   has_many :surveys_as_creator, :class_name => 'Survey', :inverse_of => :account, :dependent => :destroy
   has_many :answers, :dependent => :destroy
   has_many :survey_takers, :dependent => :destroy
@@ -100,6 +101,19 @@ class Account
       groups_to_join.each { |group_id| memberships.create(:group_id => group_id) }
     end
   end  
+  
+  attr_accessor :classified_request
+  attr_accessor :classified_offer
+  after_save do
+    if group = Group.find_by(primary: true) and group.memberships.find_by(account: self)
+      if self.classified_request
+        group.classifieds.create type: 'Request', description: self.classified_request, account: self
+      end
+      if self.classified_offer
+        group.classifieds.create type: 'Offer', description: self.classified_offer, account: self
+      end    
+    end
+  end
   
   def self.smtp_settings
     {:address => Config['MAIL_SERVER_ADDRESS'], :user_name => Config['MAIL_SERVER_USERNAME'], :password => Config['MAIL_SERVER_PASSWORD'], :port => 587, :enable_starttls_auto => true, :openssl_verify_mode => OpenSSL::SSL::VERIFY_NONE}
@@ -227,6 +241,10 @@ class Account
   def venues
     Venue.where(:group_id.in => memberships.pluck(:group_id))
   end  
+  
+  def classifieds
+    Classified.where(:group_id.in => memberships.pluck(:group_id))
+  end   
         
   def docs
     Doc.where(:group_id.in => memberships.pluck(:group_id))
@@ -280,6 +298,8 @@ class Account
   validates_confirmation_of :password, :if => :password_required 
   
   validates_length_of :headline, maximum: (Config['MAX_HEADLINE_LENGTH'] ? Config['MAX_HEADLINE_LENGTH'].to_i : 150)
+  validates_length_of :classified_request, maximum: (Config['MAX_CLASSIFIED_LENGTH'] ? Config['MAX_CLASSIFIED_LENGTH'].to_i : 150)
+  validates_length_of :classified_offer, maximum: (Config['MAX_CLASSIFIED_LENGTH'] ? Config['MAX_CLASSIFIED_LENGTH'].to_i : 150)
   
   index({email: 1 }, {unique: true})
   

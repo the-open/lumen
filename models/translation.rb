@@ -46,6 +46,8 @@ class Translation
       :digest => 'digest',
       :map => 'map',
       :docs => 'docs',
+      :classified => 'request/offer',
+      :classifieds => 'requests/offers',
       :surveys => 'surveys',
       :stats => 'stats',
       :calendar => 'calendar',
@@ -86,6 +88,8 @@ class Translation
       :'mongoid.attributes.account.antispam' => "Antispam: what's 1+1?",
       :'mongoid.attributes.account.welcome_email_body' => 'HTML. Replacements: [firstname], [group_list], [sign_in_details]',
       :'mongoid.attributes.account.account_tag_ids' => 'Areas of expertise',
+      :'mongoid.attributes.account.classified_request' => "Something you'd like to receive",
+      :'mongoid.attributes.account.classified_offer' => 'Something you can offer',
       :'mongoid.attributes.event.organisation_name' => 'Host organisation',
       :'mongoid.attributes.event.organisation_id' => 'Host organisation',
       :'mongoid.attributes.event.name' => 'Event name',     
@@ -162,6 +166,8 @@ class Translation
       :surveys_for_your_groups => 'surveys for your groups',      
       :docs_for_group => "docs for %{slug}",
       :docs_for_your_groups => 'docs for your groups',            
+      :classifieds_for_group => "requests/offers for %{slug}",
+      :classifieds_for_your_groups => 'requests/offers for your groups',                  
       :hot_conversations => 'hot conversations',
       :new_events => 'new events',
       :add_an_event => 'add an event',
@@ -187,7 +193,8 @@ class Translation
       :agree => 'agree',
       :abstain => 'abstain',
       :disagree => 'disagree',
-      :block => 'block'      
+      :block => 'block',
+      :currency_symbol => '£'
     }.merge(Hash[GroupType.all.map { |group_type| ["group_type.#{group_type.slug}", group_type.name] } ])
   end
       
