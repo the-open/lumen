@@ -205,4 +205,54 @@ $(function () {
     });
   }
 
+  $("button.run-query").click(function() {
+    var editor = ace.edit("editor");
+
+    var collectionName = $("#collections").val();
+    var query = editor.getSession().getValue();
+
+    var results = ace.edit("results");
+
+    $.post("/reports/run-query", {"collection": collectionName, "query": query}, function(data) {
+      var result = JSON.stringify(JSON.parse(data), null, 2);
+      results.getSession().setValue(result);
+
+      $("button.draw-chart").removeClass("hidden");
+      $("button.draw-chart").off("click");
+      $("button.draw-chart").click(drawChart);
+    });
+  });
+
+  function drawChart() {
+    var data = ace.edit("results").getSession().getValue();
+    $.post("/reports/format-data", {"data": data}, function(values) {
+      var formattedValues = values.map(function(value) {
+        var date = value[0];
+        value[0] = Date.UTC(date[0], date[1], date[2]);
+        return value;
+      });
+      Highcharts.chart('chart', {
+        chart: {
+          zoomType: 'x'
+        },
+        xAxis: {
+          type: 'datetime'
+        },
+        yAxis: {
+          title: {
+            text: 'Values'
+          }
+        },
+        legend: {
+          enabled: false
+        },
+        series: [{
+          type: 'area',
+          name: 'values',
+          data: formattedValues
+        }]
+      });
+    }, 'json');
+  }
+
 });

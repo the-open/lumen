@@ -1,0 +1,42 @@
+<div class="add-report">
+
+  <div class="collections">
+    <select id="collections">
+      <% Mongoid::Clients.default.database.collection_names.sort.each do |collection| %>
+        <option value="<%= collection %>"><%= collection %></option>
+      <% end %>
+    </select>
+  </div>
+
+  <div class="add-debug-query">
+    <div class="col-md-6 col-lg-6 col-sm-12 col-lg-12 query">
+      <div id="editor"></div>
+      <button class="btn btn-primary run-query">Run Query</button>
+    </div>
+    <div class="col-md-6 col-lg-6 col-sm-12 col-lg-12 result">
+      <div id="results">"Results"</div>
+      <button class="btn btn-primary draw-chart hidden">Draw Chart</button>
+    </div>
+  </div>
+
+  <div class="add-chart">
+    <div id="chart">
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.6/ace.js" type="text/javascript"></script>
+  <script src="http://code.highcharts.com/5.0.9/highcharts.js" type="text/javascript"></script>
+  <script>
+   var editor = ace.edit("editor");
+   editor.setTheme("ace/theme/monokai");
+   editor.getSession().setMode("ace/mode/json");
+   editor.getSession().setTabSize(2);
+
+   var editor = ace.edit("results");
+   editor.setReadOnly(true);
+   editor.setTheme("ace/theme/monokai");
+   editor.getSession().setMode("ace/mode/json");
+   editor.getSession().setTabSize(2);
+  </script>
+
+</div>

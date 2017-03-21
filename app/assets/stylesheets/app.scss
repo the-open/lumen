@@ -248,3 +248,52 @@ ul.admin-options li a:hover, ul.admin-options li.active a { opacity: 1 }
 .account-requests p {
   font-size: 16px;
 }
+
+.reports h2 {
+  margin: 0;
+}
+
+.reports .icons {
+  text-align: right;
+  padding-right: 20px;
+}
+
+.reports .icons a {
+  font-size: 24px;
+  color: #111;
+  padding: 10px;
+}
+
+.add-report #collections {
+  padding: 2px 0;
+  margin: 10px 0;
+  font-size: 16px;
+}
+
+.add-report .add-debug-query {
+  height: 475px;
+}
+
+.query {
+  padding: 0;
+  margin: 0;
+}
+
+.variables input {
+  width: 75%;
+  padding: 5px;
+}
+
+#editor, #results {
+  width: 100%;
+  height: 400px;
+  font-size: 16px;
+  margin-bottom: 15px;
+  margin-right: 10px;
+}
+
+#chart {
+  min-width: 300px;
+  height: 400px;
+  margin: 0 auto;
+}
