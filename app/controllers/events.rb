@@ -6,17 +6,7 @@ Lumen::App.controllers do
   
   get '/events', :provides => [:html, :ics] do    
     sign_in_required!
-    case content_type   
-    when :ics      
-      Event.ical(current_account)
-    when :html   
-      case params[:view]
-      when 'calendar'
-        erb :'events/calendar'    
-      else
-        erb :'events/events'    
-      end
-    end     
+    erb :'events/calendar'
   end
         
   get '/events/feed' do
