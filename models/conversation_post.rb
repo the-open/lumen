@@ -103,18 +103,6 @@ class ConversationPost
   def self.dmarc_fail_domains
     %w{yahoo.com aol.com protonmail.com} + (Config['DMARC_FAIL_DOMAINS'] ? Config['DMARC_FAIL_DOMAINS'].split(',') : [])
   end
-
-  def from_address
-    group = conversation.group
-    from = account.email
-    if Config['HIDE_ACCOUNT_EMAIL']
-      group.email
-    elsif ConversationPost.dmarc_fail_domains.include?(from.split('@').last)
-      group.email('-noreply')
-    else
-      from
-    end
-  end    
    
   def accounts_to_notify   
     Account.where(:id.in => (group.memberships.where(:status => 'confirmed').where(:notification_level => 'each').pluck(:account_id) - conversation.conversation_mutes.pluck(:account_id)))

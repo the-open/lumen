@@ -66,11 +66,7 @@ class ConversationPostBcc
                 
     mail = Mail.new
     mail.to = group.email
-    if Config['REPLY_TO_GROUP']
-      mail.reply_to = group.email 
-    end
-    mail.from = "#{conversation_post.account.name} <#{conversation_post.from_address}>"
-    mail.sender = group.email('-noreply')
+    mail.from = group.email 
     mail.subject = conversation.visible_conversation_posts.count == 1 ? "[#{group.slug}] #{conversation.subject}" : "Re: [#{group.slug}] #{conversation.subject}"
     mail.headers({
         'Precedence' => 'list',
