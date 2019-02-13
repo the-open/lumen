@@ -1,9 +1,7 @@
 # Lumen
 
-**For a live preview of Lumen, feel free to [join the Previewers group on lumenapp.com](http://lumenapp.com).**
-
 Lumen is an open-source group discussion platform with dual web-email access.
-It can be compared to [Discourse](http://discourse.org/), [Loomio](http://loomio.org/), [Slack](http://slack.com/), [Google Groups](http://groups.google.com) or [Facebook Groups](http://facebook.com/groups). An outline of its features:
+It can be compared to [Discourse](http://discourse.org/), [Loomio](http://loomio.org/), [Google Groups](http://groups.google.com) or [Facebook Groups](http://facebook.com/groups). An outline of its features:
 
 * Open-source (under [Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported](http://creativecommons.org/licenses/by-nc-sa/3.0/))
 * Hosted using DigitalOcean/dokku
@@ -32,7 +30,7 @@ Lumen is written in Ruby using the [Padrino](http://padrinorb.com/) framework. I
 
 * Run the installation script, replacing `$DROPLET_IP`, `$DOMAIN` and `$ADMIN_EMAIL` with the appropriate values:
   ```
-  wget https://raw.github.com/wordsandwriting/lumen/master/script/lumen-install.sh; chmod +x lumen-install.sh; ./lumen-install.sh $DROPLET_IP $DOMAIN $ADMIN_EMAIL
+  wget https://raw.github.com/the-open/lumen/master/script/lumen-install.sh; chmod +x lumen-install.sh; ./lumen-install.sh $DROPLET_IP $DOMAIN $ADMIN_EMAIL
   ```
 
 * Add DNS records (get DKIM key with `nano -$ /etc/opendkim/keys/$DOMAIN/mail.txt`):
