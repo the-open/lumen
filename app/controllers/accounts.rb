@@ -3,12 +3,24 @@ Lumen::App.controllers do
   get '/accounts/new' do
     site_admins_only!
     @account = Account.new
-    @account.welcome_email_subject = "You were added to #{Config['SITE_NAME_DEFINITE']}"
+    @account.welcome_email_subject = "Your new account on #{Config['SITE_NAME_DEFINITE']}"
     @account.welcome_email_body = %Q{Hi [firstname],
 <br /><br />
-You were added to the groups [group_list] on #{Config['SITE_NAME_DEFINITE']}.
+You have been added to the following groups on #{Config['SITE_NAME_DEFINITE']}: [group_list].
 <br /><br />
-[sign_in_details]}
+You're welcome to interact with these groups via your inbox by emailing 
+<GROUPNAME>@#{Config['MAIL_DOMAIN']}, or you can log on to 
+the web portal, update your profile, view archives, and more.
+<br /><br />
+[sign_in_details]
+<br /><br />
+If you have any questions, please don't hesitate to reach out: #{Config['HELP_ADDRESS']}
+<br /><br />
+Thank you and enjoy,
+<br />
+The Admins
+<br /><br />
+}
 
     if params[:account_request_id]
       account_request = AccountRequest.find(params[:account_request_id])
