@@ -9,7 +9,7 @@ Lumen::App.controllers do
 You have been added to the following groups on #{Config['SITE_NAME_DEFINITE']}: [group_list].
 <br /><br />
 You're welcome to interact with these groups via your inbox by emailing 
-<GROUPNAME>@#{Config['MAIL_DOMAIN']}, or you can log on to 
+[GROUPNAME]@#{Config['MAIL_DOMAIN']}, or you can log on to 
 the web portal, update your profile, view archives, and more.
 <br /><br />
 [sign_in_details]
